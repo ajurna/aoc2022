@@ -131,3 +131,6 @@ dmypy.json
 # AoC
 session.txt
 data/
+
+# PyCharm
+.idea/sonarlint/issuestore
