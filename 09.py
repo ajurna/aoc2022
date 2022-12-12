@@ -61,7 +61,7 @@ class Rope:
         self.body = [self.head] * 10
 
     def move_body(self):
-        self.body[1] = self.head
+        self.body[0] = self.head
         for i in range(len(self.body) - 1):
             head = self.body[i]
             tail = self.body[i+1]
@@ -75,7 +75,9 @@ class Rope:
                     tail = left(tail) if head.x < tail.x else right(tail)
                 self.body[i+1] = tail
         tail_visited2.add(self.body[-1])
-rope = Rope(head)
+
+
+rope = Rope(Point(0, 0))
 for line in data:
     direction, distance = line.split()
     distance = int(distance)
@@ -90,9 +92,9 @@ for line in data:
                 tail = down(tail) if head.y < tail.y else up(tail)
                 tail = left(tail) if head.x < tail.x else right(tail)
             tail_visited.add(tail)
-        rope.head = directions[direction](head)
+        rope.head = directions[direction](rope.head)
         rope.move_body()
 
-print(len(tail_visited))
-print(len(tail_visited2))
+print(f"Part 1:", len(tail_visited))
+print(f"Part 2:", len(tail_visited2))
 
