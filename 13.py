@@ -8,27 +8,28 @@ data = get_input(13).splitlines()
 
 def check_pair(p1, p2):
     for i1, i2 in zip(p1, p2):
-        if isinstance(i1, int) and isinstance(i2, int):
-            if i1 < i2:
-                return 'in_order'
-            elif i1 > i2:
-                return 'out_of_order'
-        elif isinstance(i1, list) and isinstance(i2, list):
-            result = check_pair(i1, i2)
-            if result in ['in_order', 'out_of_order']:
-                return result
-            if len(i1) < len(i2):
-                return 'in_order'
-            if len(i1) > len(i2):
-                return 'out_of_order'
-        elif isinstance(i1, list) and isinstance(i2, int):
-            result = check_pair(i1, [i2])
-            if result in ['in_order', 'out_of_order']:
-                return result
-        elif isinstance(i1, int) and isinstance(i2, list):
-            result = check_pair([i1], i2)
-            if result in ['in_order', 'out_of_order']:
-                return result
+        match i1, i2:
+            case int(), int():
+                if i1 < i2:
+                    return 'in_order'
+                elif i1 > i2:
+                    return 'out_of_order'
+            case list(), list():
+                result = check_pair(i1, i2)
+                if result in ['in_order', 'out_of_order']:
+                    return result
+                if len(i1) < len(i2):
+                    return 'in_order'
+                if len(i1) > len(i2):
+                    return 'out_of_order'
+            case list(), int():
+                result = check_pair(i1, [i2])
+                if result in ['in_order', 'out_of_order']:
+                    return result
+            case int(), list():
+                result = check_pair([i1], i2)
+                if result in ['in_order', 'out_of_order']:
+                    return result
     if len(p1) < len(p2):
         return 'in_order'
     if len(p1) > len(p2):
@@ -58,8 +59,7 @@ while data:
     all_items.append(Message(pair2))
     if len(data) > 0 and data[0] == "":
         data.pop(0)
-    result = check_pair(pair1, pair2)
-    if result == "in_order":
+    if check_pair(pair1, pair2) == "in_order":
         part1 += index
     index += 1
 print("Part 1:", part1)
